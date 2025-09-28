@@ -46,15 +46,16 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
               <motion.div
-                className="text-2xl font-bold text-green-600"
+                className="text-2xl font-bold text-green-600 hover:text-green-700 transition-colors"
                 whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 🍎 Fruit Habibi
               </motion.div>
@@ -67,7 +68,7 @@ const Navbar: React.FC = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:bg-green-50"
               >
                 {item.name}
               </Link>
@@ -82,10 +83,10 @@ const Navbar: React.FC = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors"
+                  className="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors duration-200"
                 >
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                    <UserIcon className="w-5 h-5 text-green-600" />
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-md">
+                    <UserIcon className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-sm font-medium">{user.full_name}</span>
                 </button>
@@ -94,11 +95,11 @@ const Navbar: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+                    className="absolute right-0 mt-2 w-48 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl py-1 z-50 border border-gray-100"
                   >
                     <Link
                       href="/profile"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
                       onClick={() => setIsProfileOpen(false)}
                     >
                       <UserIcon className="w-4 h-4 mr-2" />
@@ -107,7 +108,7 @@ const Navbar: React.FC = () => {
                     {user.role === 'farmer' && (
                       <Link
                         href="/profile?tab=products"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
                         onClick={() => setIsProfileOpen(false)}
                       >
                         <ShoppingBagIcon className="w-4 h-4 mr-2" />
@@ -117,7 +118,7 @@ const Navbar: React.FC = () => {
                     {user.role === 'importer' && (
                       <Link
                         href="/profile?tab=messages"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
                         onClick={() => setIsProfileOpen(false)}
                       >
                         <ShoppingBagIcon className="w-4 h-4 mr-2" />
@@ -126,7 +127,7 @@ const Navbar: React.FC = () => {
                     )}
                     <button
                       onClick={handleLogout}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
                     >
                       <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
                       Sign Out
@@ -135,14 +136,14 @@ const Navbar: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <Link href="/login">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="hover:bg-green-50 hover:text-green-600 transition-colors duration-200">
                     Sign In
                   </Button>
                 </Link>
                 <Link href="/register">
-                  <Button variant="primary" size="sm">
+                  <Button variant="primary" size="sm" className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-md hover:shadow-lg">
                     Sign Up
                   </Button>
                 </Link>
@@ -154,7 +155,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-green-600 focus:outline-none focus:text-green-600"
+              className="text-gray-700 hover:text-green-600 focus:outline-none focus:text-green-600 transition-colors duration-200 p-2 rounded-lg hover:bg-green-50"
             >
               {isOpen ? (
                 <XMarkIcon className="h-6 w-6" />
@@ -172,7 +173,7 @@ const Navbar: React.FC = () => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-white border-t"
+          className="md:hidden bg-white/95 backdrop-blur-sm border-t border-gray-200"
         >
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navigation.map((item) => (
