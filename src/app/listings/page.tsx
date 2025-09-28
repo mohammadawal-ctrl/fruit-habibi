@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { 
   MagnifyingGlassIcon
@@ -23,14 +23,6 @@ export default function ListingsPage() {
   const categories = ['Fruits', 'Vegetables', 'Grains', 'Oils', 'Spices', 'Nuts']
   const countries = ['Egypt', 'Morocco', 'Ghana', 'Kenya', 'Nigeria', 'UAE', 'Saudi Arabia', 'Qatar']
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
-
-  useEffect(() => {
-    filterProducts()
-  }, [products, searchTerm, selectedCategory, selectedCountry, priceRange])
-
   const fetchProducts = async () => {
     try {
       const { data, error } = await supabase
@@ -48,7 +40,7 @@ export default function ListingsPage() {
     }
   }
 
-  const filterProducts = () => {
+  const filterProducts = useCallback(() => {
     let filtered = [...products]
 
     // Search filter
@@ -79,7 +71,15 @@ export default function ListingsPage() {
     }
 
     setFilteredProducts(filtered)
-  }
+  }, [products, searchTerm, selectedCategory, selectedCountry, priceRange])
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  useEffect(() => {
+    filterProducts()
+  }, [products, searchTerm, selectedCategory, selectedCountry, priceRange, filterProducts])
 
   const clearFilters = () => {
     setSearchTerm('')

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, Suspense } from 'react'
+import React, { useState, useEffect, useCallback, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { 
@@ -28,20 +28,7 @@ function ProfilePageContent() {
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login')
-      return
-    }
-
-    if (user) {
-      const tab = searchParams.get('tab') || 'profile'
-      setActiveTab(tab)
-      fetchData(tab)
-    }
-  }, [user, authLoading, searchParams])
-
-  const fetchData = async (tab: string) => {
+  const fetchData = useCallback(async (tab: string) => {
     setLoading(true)
     try {
       if (tab === 'products' && user?.role === 'farmer') {
@@ -85,7 +72,20 @@ function ProfilePageContent() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login')
+      return
+    }
+
+    if (user) {
+      const tab = searchParams.get('tab') || 'profile'
+      setActiveTab(tab)
+      fetchData(tab)
+    }
+  }, [user, authLoading, searchParams, router, fetchData])
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)

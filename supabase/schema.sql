@@ -1,5 +1,5 @@
 -- Enable Row Level Security
-ALTER DATABASE postgres SET "app.jwt_secret" TO 'your-jwt-secret';
+-- Note: JWT secret is automatically managed by Supabase
 
 -- Create custom types
 CREATE TYPE user_role AS ENUM ('farmer', 'importer', 'admin');

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   XMarkIcon, 
@@ -38,17 +38,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  useEffect(() => {
-    if (isOpen) {
-      fetchMessages()
-    }
-  }, [isOpen, product.id])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     setLoading(true)
     try {
       const { data, error } = await supabase
@@ -64,7 +54,17 @@ const MessageModal: React.FC<MessageModalProps> = ({
     } finally {
       setLoading(false)
     }
-  }
+  }, [product.id])
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchMessages()
+    }
+  }, [isOpen, product.id, fetchMessages])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()

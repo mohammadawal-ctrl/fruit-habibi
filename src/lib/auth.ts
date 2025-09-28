@@ -1,4 +1,6 @@
 import { supabase, User } from './supabase'
+import { useState, useEffect } from 'react'
+import { mockUser } from './mockAuth'
 
 export interface AuthUser extends User {
   email: string
@@ -85,16 +87,32 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Check if we're in development mode with placeholder Supabase
+    const isDevelopment = process.env.NODE_ENV === 'development'
+    const isPlaceholderSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('placeholder')
+    
+    if (isDevelopment && isPlaceholderSupabase) {
+      // Use mock auth for development
+      setUser({ ...mockUser, email: 'demo@fruithabibi.com' })
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session?.user) {
-        const profile = await auth.getUserProfile(session.user.id)
-        if (profile) {
-          setUser({ ...profile, email: session.user.email! })
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user) {
+          const profile = await auth.getUserProfile(session.user.id)
+          if (profile) {
+            setUser({ ...profile, email: session.user.email! })
+          }
         }
+        setLoading(false)
+      } catch (error) {
+        console.error('Auth error:', error)
+        setLoading(false)
       }
-      setLoading(false)
     }
 
     getInitialSession()
@@ -102,10 +120,40 @@ export const useAuth = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email)
+        
         if (session?.user) {
-          const profile = await auth.getUserProfile(session.user.id)
-          if (profile) {
-            setUser({ ...profile, email: session.user.email! })
+          try {
+            const profile = await auth.getUserProfile(session.user.id)
+            if (profile) {
+              setUser({ ...profile, email: session.user.email! })
+            } else {
+              console.log('No profile found for user:', session.user.id)
+              // Create a basic user object if no profile exists
+              setUser({
+                id: session.user.id,
+                email: session.user.email!,
+                full_name: session.user.user_metadata?.full_name || 'User',
+                role: session.user.user_metadata?.role || 'farmer',
+                country: session.user.user_metadata?.country || 'Unknown',
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+                is_banned: false
+              })
+            }
+          } catch (error) {
+            console.error('Error fetching user profile:', error)
+            // Create a basic user object as fallback
+            setUser({
+              id: session.user.id,
+              email: session.user.email!,
+              full_name: session.user.user_metadata?.full_name || 'User',
+              role: session.user.user_metadata?.role || 'farmer',
+              country: session.user.user_metadata?.country || 'Unknown',
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              is_banned: false
+            })
           }
         } else {
           setUser(null)
@@ -120,5 +168,3 @@ export const useAuth = () => {
   return { user, loading }
 }
 
-// Import React hooks
-import { useState, useEffect } from 'react'

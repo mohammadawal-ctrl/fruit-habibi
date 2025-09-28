@@ -43,7 +43,7 @@ export default function AdminPage() {
     if (user?.role === 'admin') {
       fetchDashboardData()
     }
-  }, [user, authLoading])
+  }, [user, authLoading, router])
 
   const fetchDashboardData = async () => {
     setLoading(true)
@@ -208,7 +208,7 @@ export default function AdminPage() {
 
   const productColumns = [
     { key: 'title', label: 'Product' },
-    { key: 'farmer_id', label: 'Farmer', render: (value: unknown, item: Product) => {
+    { key: 'farmer_id', label: 'Farmer', render: (value: unknown) => {
       const farmer = users.find(u => u.id === value)
       return farmer?.full_name || 'Unknown'
     }},
@@ -389,7 +389,7 @@ export default function AdminPage() {
                   data={users}
                   columns={userColumns}
                   type="users"
-                  onEdit={(user) => console.log('Edit user:', user)}
+                  onEdit={() => console.log('Edit user')}
                   onDelete={deleteUser}
                 />
               </div>
@@ -403,7 +403,7 @@ export default function AdminPage() {
                   data={products}
                   columns={productColumns}
                   type="products"
-                  onEdit={(product) => console.log('Edit product:', product)}
+                  onEdit={() => console.log('Edit product')}
                   onDelete={deleteProduct}
                   onApprove={approveProduct}
                   onReject={rejectProduct}
