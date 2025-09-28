@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import AdminTable from '@/components/AdminTable'
-import Button from '@/components/Button'
+// import Button from '@/components/Button'
 
 // Mock data for demo
 const mockUsers = [
@@ -295,7 +295,7 @@ export default function AdminDemoPage() {
                   }
                 ]}
                 onEdit={() => console.log('Edit user')}
-                onDelete={(user) => handleUserAction(user.id, 'ban')}
+                onDelete={(user) => handleUserAction(String(user.id), 'ban')}
                 deleteLabel="Toggle Ban"
               />
             </div>
