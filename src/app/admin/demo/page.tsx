@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { AdminTable } from '@/components/AdminTable'
-import { Button } from '@/components/Button'
+import React, { useState } from 'react'
+import AdminTable from '@/components/AdminTable'
+import Button from '@/components/Button'
 
 // Mock data for demo
 const mockUsers = [

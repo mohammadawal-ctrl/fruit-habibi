@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button } from '@/components/Button'
+import Button from '@/components/Button'
 
 // Mock data for demo
 const mockUser = {
@@ -69,9 +69,9 @@ const mockMessages = [
 
 export default function ProfileDemoPage() {
   const [activeTab, setActiveTab] = useState('profile')
-  const [user, setUser] = useState(mockUser)
-  const [products, setProducts] = useState(mockProducts)
-  const [messages, setMessages] = useState(mockMessages)
+  const [user] = useState(mockUser)
+  const [products] = useState(mockProducts)
+  const [messages] = useState(mockMessages)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
