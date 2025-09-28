@@ -296,7 +296,7 @@ export default function AdminDemoPage() {
                 ]}
                 onEdit={() => console.log('Edit user')}
                 onDelete={(user) => handleUserAction(String(user.id), 'ban')}
-                deleteLabel="Toggle Ban"
+                type="users"
               />
             </div>
           </div>
