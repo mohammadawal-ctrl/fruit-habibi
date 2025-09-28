@@ -313,12 +313,12 @@ export default function AdminDemoPage() {
                   { key: 'title', label: 'Product' },
                   { key: 'category', label: 'Category' },
                   { key: 'country', label: 'Country' },
-                  { key: 'price_per_unit', label: 'Price', render: (value: number) => `$${value}/${products[0]?.unit || 'unit'}` },
+                  { key: 'price_per_unit', label: 'Price', render: (value: unknown) => `$${value}/${products[0]?.unit || 'unit'}` },
                   { key: 'quantity_available', label: 'Quantity' },
                   { 
                     key: 'is_approved', 
                     label: 'Status',
-                    render: (value: boolean) => (
+                    render: (value: unknown) => (
                       <span className={`px-2 py-1 text-xs rounded-full ${
                         value ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                       }`}>
