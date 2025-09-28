@@ -328,10 +328,9 @@ export default function AdminDemoPage() {
                   }
                 ]}
                 onEdit={() => console.log('Edit product')}
-                onDelete={(product) => handleProductAction(product.id, 'reject')}
-                deleteLabel="Reject"
-                showApprove={true}
-                onApprove={(product) => handleProductAction(product.id, 'approve')}
+                onDelete={(product) => handleProductAction(String(product.id), 'reject')}
+                onApprove={(product) => handleProductAction(String(product.id), 'approve')}
+                type="products"
               />
             </div>
           </div>
