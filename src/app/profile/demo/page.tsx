@@ -70,7 +70,7 @@ const mockMessages = [
 export default function ProfileDemoPage() {
   const [activeTab, setActiveTab] = useState('profile')
   const [user] = useState(mockUser)
-  const [products] = useState(mockProducts)
+  const [products, setProducts] = useState(mockProducts)
   const [messages] = useState(mockMessages)
 
   const handleTabChange = (tab: string) => {
