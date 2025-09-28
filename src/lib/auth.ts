@@ -103,9 +103,24 @@ export const useAuth = () => {
       try {
         const { data: { session } } = await supabase.auth.getSession()
         if (session?.user) {
+          // Wait a moment for the trigger to create the user profile
+          await new Promise(resolve => setTimeout(resolve, 1000))
+          
           const profile = await auth.getUserProfile(session.user.id)
           if (profile) {
             setUser({ ...profile, email: session.user.email! })
+          } else {
+            // Create a basic user object if no profile exists
+            setUser({
+              id: session.user.id,
+              email: session.user.email!,
+              full_name: session.user.user_metadata?.full_name || 'User',
+              role: session.user.user_metadata?.role || 'farmer',
+              country: session.user.user_metadata?.country || 'Unknown',
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              is_banned: false
+            })
           }
         }
         setLoading(false)
@@ -124,6 +139,9 @@ export const useAuth = () => {
         
         if (session?.user) {
           try {
+            // Wait a moment for the trigger to create the user profile
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            
             const profile = await auth.getUserProfile(session.user.id)
             if (profile) {
               setUser({ ...profile, email: session.user.email! })

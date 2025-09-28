@@ -43,17 +43,21 @@ export default function RegisterPage() {
     }
 
     try {
-      await auth.signUp(formData.email, formData.password, {
+      const result = await auth.signUp(formData.email, formData.password, {
         full_name: formData.fullName,
         role: formData.role,
         country: formData.country,
         phone: formData.phone,
         company_name: formData.companyName
       })
-      setSuccess(true)
+      console.log('Sign up result:', result)
+      
+      if (result.user) {
+        setSuccess(true)
+      }
     } catch (error: unknown) {
+      console.error('Registration error:', error)
       setError((error as Error).message || 'An error occurred during registration')
-    } finally {
       setLoading(false)
     }
   }

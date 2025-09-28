@@ -28,9 +28,14 @@ export default function LoginPage() {
       const result = await auth.signIn(formData.email, formData.password)
       console.log('Sign in result:', result)
       
-      // Force a page reload to ensure auth state is updated
-      window.location.href = '/'
+      if (result.user) {
+        // Wait a moment for auth state to update
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 1000)
+      }
     } catch (error: unknown) {
+      console.error('Login error:', error)
       setError((error as Error).message || 'An error occurred during login')
       setLoading(false)
     }
