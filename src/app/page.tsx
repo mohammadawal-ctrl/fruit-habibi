@@ -49,6 +49,7 @@ export default function HomePage() {
         setFeaturedProducts([
           {
             id: '1',
+            farmer_id: 'mock-farmer-1',
             title: 'Premium Mangoes',
             description: 'Sweet and juicy mangoes from Egypt',
             price_per_unit: 2.50,
@@ -64,6 +65,7 @@ export default function HomePage() {
           },
           {
             id: '2',
+            farmer_id: 'mock-farmer-2',
             title: 'Fresh Carrots',
             description: 'Organic carrots from Morocco',
             price_per_unit: 1.20,
@@ -79,6 +81,7 @@ export default function HomePage() {
           },
           {
             id: '3',
+            farmer_id: 'mock-farmer-3',
             title: 'Sweet Oranges',
             description: 'Fresh oranges from Ghana',
             price_per_unit: 1.80,
@@ -104,6 +107,7 @@ export default function HomePage() {
         setFeaturedProducts([
           {
             id: '1',
+            farmer_id: 'mock-farmer-1',
             title: 'Premium Mangoes',
             description: 'Sweet and juicy mangoes from Egypt',
             price_per_unit: 2.50,
@@ -125,6 +129,7 @@ export default function HomePage() {
       setFeaturedProducts([
         {
           id: '1',
+          farmer_id: 'mock-farmer-1',
           title: 'Premium Mangoes',
           description: 'Sweet and juicy mangoes from Egypt',
           price_per_unit: 2.50,
