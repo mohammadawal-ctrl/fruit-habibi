@@ -25,14 +25,19 @@ export default function LoginPage() {
     setError('')
 
     try {
+      console.log('Attempting to sign in with:', formData.email)
       const result = await auth.signIn(formData.email, formData.password)
       console.log('Sign in result:', result)
       
       if (result.user) {
+        console.log('Sign in successful, redirecting...')
         // Wait a moment for auth state to update
         setTimeout(() => {
           window.location.href = '/'
         }, 1000)
+      } else {
+        setError('Sign in failed - no user returned')
+        setLoading(false)
       }
     } catch (error: unknown) {
       console.error('Login error:', error)

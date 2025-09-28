@@ -98,18 +98,34 @@ export const useAuth = () => {
       return
     }
 
+    // Initialize loading state
+    setLoading(true)
+
     // Get initial session
     const getInitialSession = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession()
+        console.log('Getting initial session...')
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (error) {
+          console.error('Session error:', error)
+          setLoading(false)
+          return
+        }
+
+        console.log('Session:', session)
+        
         if (session?.user) {
+          console.log('User found:', session.user.email)
           // Wait a moment for the trigger to create the user profile
           await new Promise(resolve => setTimeout(resolve, 1000))
           
           const profile = await auth.getUserProfile(session.user.id)
           if (profile) {
+            console.log('Profile found:', profile)
             setUser({ ...profile, email: session.user.email! })
           } else {
+            console.log('No profile found, creating fallback user')
             // Create a basic user object if no profile exists
             setUser({
               id: session.user.id,
@@ -122,6 +138,8 @@ export const useAuth = () => {
               is_banned: false
             })
           }
+        } else {
+          console.log('No session found')
         }
         setLoading(false)
       } catch (error) {
@@ -144,9 +162,10 @@ export const useAuth = () => {
             
             const profile = await auth.getUserProfile(session.user.id)
             if (profile) {
+              console.log('Profile found in auth change:', profile)
               setUser({ ...profile, email: session.user.email! })
             } else {
-              console.log('No profile found for user:', session.user.id)
+              console.log('No profile found for user in auth change:', session.user.id)
               // Create a basic user object if no profile exists
               setUser({
                 id: session.user.id,
@@ -160,7 +179,7 @@ export const useAuth = () => {
               })
             }
           } catch (error) {
-            console.error('Error fetching user profile:', error)
+            console.error('Error fetching user profile in auth change:', error)
             // Create a basic user object as fallback
             setUser({
               id: session.user.id,
@@ -174,6 +193,7 @@ export const useAuth = () => {
             })
           }
         } else {
+          console.log('No session in auth change, setting user to null')
           setUser(null)
         }
         setLoading(false)

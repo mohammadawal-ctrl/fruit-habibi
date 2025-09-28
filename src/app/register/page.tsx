@@ -43,6 +43,7 @@ export default function RegisterPage() {
     }
 
     try {
+      console.log('Attempting to sign up with:', formData.email)
       const result = await auth.signUp(formData.email, formData.password, {
         full_name: formData.fullName,
         role: formData.role,
@@ -53,7 +54,11 @@ export default function RegisterPage() {
       console.log('Sign up result:', result)
       
       if (result.user) {
+        console.log('Sign up successful')
         setSuccess(true)
+      } else {
+        setError('Registration failed - no user returned')
+        setLoading(false)
       }
     } catch (error: unknown) {
       console.error('Registration error:', error)
