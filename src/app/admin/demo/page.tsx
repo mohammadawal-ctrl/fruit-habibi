@@ -285,7 +285,7 @@ export default function AdminDemoPage() {
                   { 
                     key: 'is_banned', 
                     label: 'Status',
-                    render: (value: boolean) => (
+                    render: (value: unknown) => (
                       <span className={`px-2 py-1 text-xs rounded-full ${
                         value ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
                       }`}>
